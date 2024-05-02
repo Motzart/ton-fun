@@ -10,6 +10,7 @@ import {
   NavbarMenuToggle,
   NavbarMenu, NavbarMenuItem
 } from "@nextui-org/react";
+import { TonConnectButton } from '@tonconnect/ui-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -61,9 +62,7 @@ return (
     </NavbarContent>
     <NavbarContent justify="end">
       <NavbarItem>
-        <Button as={Link} color="primary" href="#" variant="flat">
-          [Connect Wallet]
-        </Button>
+        <TonConnectButton />
       </NavbarItem>
     </NavbarContent>
     <NavbarMenu>
