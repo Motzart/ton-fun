@@ -20,14 +20,17 @@ export default function Home() {
   const TradeSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
+      .max(180, 'Too Long!')
       .required('Required'),
     ticker: Yup.string()
       .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
+      .max(180, 'Too Long!')
       .required('Required'),
-    // description: Yup.string().required('Required'),
-    // imageUrl: Yup.string().required('Required'),
+    description: Yup.string()
+      .min(2, 'Too Short!')
+      .max(380, 'Too Long!')
+      .required('Required'),
+    imageUrl: Yup.string().url().required('Required'),
     // twitterUrl: Yup.string().required('Required'),
     // telegramUrl: Yup.string().required('Required'),
     // website: Yup.string().required('Required'),
@@ -50,8 +53,8 @@ export default function Home() {
                   initialValues={{
                     name: '',
                     ticker: '',
-                    // description: '',
-                    // imageUrl: '',
+                    description: '',
+                    imageUrl: '',
                     // twitterUrl: '',
                     // telegramUrl: '',
                     // website: ''
@@ -66,16 +69,6 @@ export default function Home() {
                     console.log(errors)
                     return (
                       <Form className="flex flex-col">
-                        {/*<Field*/}
-                        {/*  name="name"*/}
-                        {/*  size="sm"*/}
-                        {/*  type="name"*/}
-                        {/*  label="Name"*/}
-                        {/*  component={Input}*/}
-                        {/*  color={errors.name ? "danger" : "success"}*/}
-                        {/*  isInvalid={errors.name}*/}
-                        {/*  errorMessage={errors.name}*/}
-                        {/*/>*/}
                         <Field name="name">
                           {({
                               field,
@@ -93,6 +86,26 @@ export default function Home() {
                             }) => (
                             <div className="h-[85px]">
                               <Input type="text" {...field} label="Ticker" isInvalid={errors.ticker} errorMessage={errors.ticker} color={errors.ticker ? "danger" : ""}/>
+                            </div>
+                          )}
+                        </Field>
+                        <Field name="description">
+                          {({
+                              field,
+                              form: { errors },
+                            }) => (
+                            <div className="h-[85px]">
+                              <Input type="text" {...field} label="Description" isInvalid={errors.description} errorMessage={errors.description} color={errors.description ? "danger" : ""}/>
+                            </div>
+                          )}
+                        </Field>
+                        <Field name="imageUrl">
+                          {({
+                              field,
+                              form: { errors },
+                            }) => (
+                            <div className="h-[85px]">
+                              <Input type="text" {...field} label="Image Url" isInvalid={errors.imageUrl} errorMessage={errors.imageUrl} color={errors.imageUrl ? "danger" : ""}/>
                             </div>
                           )}
                         </Field>
