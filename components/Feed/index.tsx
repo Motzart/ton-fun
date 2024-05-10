@@ -4,6 +4,7 @@ import ImgIcon from '../../public/image123.svg'
 
 const Feed = () => {
   const feed = Array.from({length: 51}, (_, i) => i + 1);
+
   return (
     <div className="w-full justify-center items-center grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {feed.map((item) => (
