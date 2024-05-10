@@ -5,8 +5,13 @@
 
 body {
     background-color: #F2F5F9;
+    min-height: 100dvh;
 }
 
-input[type="text"] {
+input, input[type="text"], [type="search"] {
     font-size: inherit;
+    font-family: inherit;
+    &::placeholder {
+        font-family: inherit;
+    }
 }
