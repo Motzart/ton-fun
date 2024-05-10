@@ -29,7 +29,8 @@ const Feed = () => {
         </Card>
         </Link>
       ))}
-    </div>);
+    </div>
+  );
 }
 
 export default Feed;
