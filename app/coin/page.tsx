@@ -31,7 +31,6 @@ export default function Coin() {
           <Progress aria-label="Loading..." value={10} className="max-w-md"/>
           <div>dethrone the current king at a $26,978 mcap</div>
           <div>Holder distribution</div>
-
         </div>
       </div>
     </>

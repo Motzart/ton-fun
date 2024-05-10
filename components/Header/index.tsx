@@ -6,7 +6,6 @@ import {
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
   NavbarMenuToggle,
   NavbarMenu, NavbarMenuItem
 } from "@nextui-org/react";
@@ -17,12 +16,10 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
-    "Profile",
-    "Dashboard",
     "How it works",
     "Support",
-    "Twitter",
     "Telegram",
+    "Twitter.X",
   ];
 
 return (
