@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, Card, CardBody, CardFooter, Chip, Input } from '@nextui-org/react';
 
-const BalanceInput = () => {
+const BalanceInput = ({handleConfirmButton}: {
+  handleConfirmButton: any
+}) => {
   const percentShortcuts = [10, 25, 50, 75];
   const handlePercentChange = (sliderPercent: number) => {
     console.log(sliderPercent)
@@ -9,14 +11,6 @@ const BalanceInput = () => {
   return (
     <Card shadow="sm">
       <CardBody>
-        <div className="flex flex-row justify-between mb-4">
-          <Button size="sm">
-            Switch to ...
-          </Button>
-          <Button size="sm">
-            Set max slippage
-          </Button>
-        </div>
 
         <Input
           type="number"
@@ -52,7 +46,7 @@ const BalanceInput = () => {
         </div>
       </CardBody>
       <CardFooter>
-        <Button color="success" fullWidth>
+        <Button color="success" onClick={handleConfirmButton} fullWidth>
           Place Trade
         </Button>
       </CardFooter>

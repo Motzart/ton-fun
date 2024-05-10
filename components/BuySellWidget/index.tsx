@@ -1,11 +1,15 @@
 // @ts-nocheck
 import React from 'react';
-import { Tabs, Tab, Card, CardBody, CardHeader, CardFooter, Button, Input } from "@nextui-org/react";
+import { Tabs, Tab } from "@nextui-org/react";
 import BalanceInput from '@/components/BuySellWidget/BalanceInput';
 
 const BuySellWidget = () => {
   const [selected, setSelected] = React.useState("buy");
   const selectedColor = selected === 'buy' ? 'w-full bg-success' : 'w-full bg-red-400';
+
+  const handleButtonTrade = () => {
+    console.log('go to trade');
+  }
 
   return (
     <div className="flex w-full flex-col">
@@ -19,10 +23,10 @@ const BuySellWidget = () => {
         }}
       >
         <Tab key="buy" title="Buy">
-          <BalanceInput />
+          <BalanceInput handleConfirmButton={handleButtonTrade}/>
         </Tab>
         <Tab key="sell" title="Sell">
-          <BalanceInput />
+          <BalanceInput handleConfirmButton={handleButtonTrade}/>
         </Tab>
       </Tabs>
     </div>
