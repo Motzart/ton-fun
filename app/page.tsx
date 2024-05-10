@@ -16,6 +16,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import { useTonWallet } from '@tonconnect/ui-react';
+import JettonInfo from "@/components/JettonInfo";
 
 export default function Home() {
 
@@ -60,7 +61,8 @@ export default function Home() {
         onClick={onOpen}
         >Create Your Jetton
       </button>
-      <Feed/>
+      <JettonInfo />
+      <Feed />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} placement="top">
         <ModalContent>
           {(onClose) => (
