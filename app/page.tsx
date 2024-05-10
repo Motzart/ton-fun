@@ -8,17 +8,19 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
-  Input
+  useDisclosure, Input,
 } from "@nextui-org/react";
 import Feed from '@/components/Feed';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import { useTonWallet } from '@tonconnect/ui-react';
 import JettonInfo from "@/components/JettonInfo";
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
 
 export default function Home() {
+  const [tonConnectUi, setOptions] = useTonConnectUI();
+  const wallet = useTonWallet();
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const TradeSchema = Yup.object().shape({
     name: Yup.string()
@@ -33,16 +35,9 @@ export default function Home() {
       .min(2, 'Too Short!')
       .max(380, 'Too Long!')
       .required('Required'),
-    logoUrl: Yup.string()
-      .url()
-      .required('Required'),
-    amount: Yup.number()
-      .required('Required')
+    logoUrl: Yup.string().url().required('Required'),
+    amount: Yup.number().required('Required')
   });
-
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  const wallet = useTonWallet();
-  const [tonConnectUI, setOptions] = useTonConnectUI();
 
   const transaction = {
     messages: [
@@ -67,84 +62,87 @@ export default function Home() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Start New Coin</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Start New Jetton</ModalHeader>
               <ModalBody>
-                <Formik
-                  initialValues={{
-                    name: '',
-                    symbol: '',
-                    description: '',
-                    logoUrl: '',
-                    amount: '',
-                  }}
-                  validationSchema={TradeSchema}
-                  onSubmit={values => {
-                    console.log(values);
-                    tonConnectUI.sendTransaction(transaction).then(() => onClose())
-                  }}
-                >
-                  {({ errors, touched }) => {
-                    console.log(errors)
-                    return (
-                      <Form className="flex flex-col">
-                        <Field name="name">
-                          {({
-                              field,
-                              form: { errors },
-                            }) => (
+                {wallet ? (
+                  <Formik
+                    initialValues={{
+                      name: '',
+                      symbol: '',
+                      description: '',
+                      logoUrl: '',
+                      amount: '1000000000',
+                    }}
+                    validationSchema={TradeSchema}
+                    onSubmit={values => {
+                      tonConnectUi.sendTransaction(transaction).then(() => onClose())
+                    }}
+                  >
+                    {({ errors, touched }) => {
+                      console.log(errors)
+                      return (
+                        <Form className="flex flex-col">
+                          <Field name="name">
+                            {({
+                                field,
+                                form: { errors },
+                              }) => (
                               <div className="h-[85px]">
                                 <Input type="text" {...field} label="Name" isInvalid={errors.name} errorMessage={errors.name} color={errors.name ? "danger" : ""}/>
                               </div>
-                          )}
-                        </Field>
-                        <Field name="symbol">
-                          {({
-                              field,
-                              form: { errors },
-                            }) => (
-                            <div className="h-[85px]">
-                              <Input type="text" {...field} label="Symbol" isInvalid={errors.symbol} errorMessage={errors.symbol} color={errors.symbol ? "danger" : ""}/>
-                            </div>
-                          )}
-                        </Field>
-                        <Field name="description">
-                          {({
-                              field,
-                              form: { errors },
-                            }) => (
-                            <div className="h-[85px]">
-                              <Input type="text" {...field} label="Description" isInvalid={errors.description} errorMessage={errors.description} color={errors.description ? "danger" : ""}/>
-                            </div>
-                          )}
-                        </Field>
-                        <Field name="logoUrl">
-                          {({
-                              field,
-                              form: { errors },
-                            }) => (
-                            <div className="h-[85px]">
-                              <Input type="text" {...field} label="Logo Url" isInvalid={errors.logoUrl} errorMessage={errors.logoUrl} color={errors.logoUrl ? "danger" : ""}/>
-                            </div>
-                          )}
-                        </Field>
-                        <Field name="amount">
-                          {({
-                              field,
-                              form: { errors },
-                            }) => (
-                            <div className="h-[85px]">
-                              <Input type="text" {...field} label="Amount" isInvalid={errors.amount} errorMessage={errors.amount} color={errors.amount ? "danger" : ""}/>
-                            </div>
-                          )}
-                        </Field>
-                        {wallet ? <Button size="md" color="primary" fullWidth type="submit">Submit</Button> :
-                          <Button size="md" color="primary" fullWidth type="submit" onClick={() => tonConnectUi.openModal()}>
-                            Connect wallet
-                          </Button>}
-                      </Form>
-                    )
-                  }}
-                </Formik>
+                            )}
+                          </Field>
+                          <Field name="symbol">
+                            {({
+                                field,
+                                form: { errors },
+                              }) => (
+                              <div className="h-[85px]">
+                                <Input type="text" {...field} label="Symbol" isInvalid={errors.symbol} errorMessage={errors.symbol} color={errors.symbol ? "danger" : ""}/>
+                              </div>
+                            )}
+                          </Field>
+                          <Field name="description">
+                            {({
+                                field,
+                                form: { errors },
+                              }) => (
+                              <div className="h-[85px]">
+                                <Input type="text" {...field} label="Description" isInvalid={errors.description} errorMessage={errors.description} color={errors.description ? "danger" : ""}/>
+                              </div>
+                            )}
+                          </Field>
+                          <Field name="logoUrl">
+                            {({
+                                field,
+                                form: { errors },
+                              }) => (
+                              <div className="h-[85px]">
+                                <Input type="text" {...field} label="Logo Url" isInvalid={errors.logoUrl} errorMessage={errors.logoUrl} color={errors.logoUrl ? "danger" : ""}/>
+                              </div>
+                            )}
+                          </Field>
+                          <Field name="amount">
+                            {({
+                                field,
+                                form: { errors },
+                              }) => (
+                              <div className="h-[85px]">
+                                <Input type="text" {...field} label="Amount" isInvalid={errors.amount} errorMessage={errors.amount} color={errors.amount ? "danger" : ""}/>
+                              </div>
+                            )}
+                          </Field>
+                          <Button size="md" color="primary" fullWidth type="submit">Submit</Button>
+                        </Form>
+                      )
+                    }}
+                  </Formik>
+                ) : (
+                  <Button size="md" color="primary" fullWidth onClick={() => tonConnectUi.openModal()}>
+                    Connect wallet
+                  </Button>
+                )}
+
               </ModalBody>
               <ModalFooter>
               </ModalFooter>
