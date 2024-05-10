@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
       <TonUIProvider>
         <UiProviders>
-          <div className="max-w-[1280px] bg-slate-400 m-auto">
+          <div className="max-w-[1280px] m-auto">
             <Header />
             {children}
           </div>

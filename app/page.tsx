@@ -2,7 +2,6 @@
 'use client';
 
 import {
-  Link,
   Modal,
   ModalContent,
   ModalHeader,
@@ -33,8 +32,11 @@ export default function Home() {
       .min(2, 'Too Short!')
       .max(380, 'Too Long!')
       .required('Required'),
-    logoUrl: Yup.string().url().required('Required'),
-    amount: Yup.number().required('Required')
+    logoUrl: Yup.string()
+      .url()
+      .required('Required'),
+    amount: Yup.number()
+      .required('Required')
   });
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -52,9 +54,12 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex w-full justify-center items-center py-24">
-        <Link className="text-2xl font-bold" href="#" onClick={onOpen}>[===\ Start New Coin /===]</Link>
-      </div>
+      <button
+        type="button"
+        className="mt-11 flex w-full h-16 rounded-2xl justify-center items-center text-lg font-semibold text-white bg-gradient-to-r from-[#8C46E6] to-[#0066FF]"
+        onClick={onOpen}
+        >Create Your Jetton
+      </button>
       <Feed/>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} placement="top">
         <ModalContent>
