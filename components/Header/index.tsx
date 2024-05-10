@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import {
   Navbar,
@@ -17,7 +18,6 @@ const Header = () => {
 
   const menuItems = [
     "How it works",
-    "Support",
     "Telegram",
     "Twitter.X",
   ];
@@ -45,11 +45,6 @@ return (
       <NavbarItem>
         <Link color="foreground" href="#">
           How it works
-        </Link>
-      </NavbarItem>
-      <NavbarItem >
-        <Link color="foreground" href="#" >
-          Support
         </Link>
       </NavbarItem>
       <NavbarItem>
