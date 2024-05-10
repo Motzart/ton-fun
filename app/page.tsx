@@ -15,8 +15,11 @@ import {
 import Feed from '@/components/Feed';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { useTonConnectUI } from '@tonconnect/ui-react';
+import { useTonWallet } from '@tonconnect/ui-react';
 
 export default function Home() {
+
   const TradeSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, 'Too Short!')
@@ -33,7 +36,19 @@ export default function Home() {
     logoUrl: Yup.string().url().required('Required'),
     amount: Yup.number().required('Required')
   });
+
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const wallet = useTonWallet();
+  const [tonConnectUI, setOptions] = useTonConnectUI();
+
+  const transaction = {
+    messages: [
+      {
+        address: "0QCSES0TZYqcVkgoguhIb8iMEo4cvaEwmIrU5qbQgnN8fo2A", // destination address
+        amount: "1000000000"
+      }
+    ]
+  }
 
   return (
     <>
@@ -57,8 +72,8 @@ export default function Home() {
                   }}
                   validationSchema={TradeSchema}
                   onSubmit={values => {
-                    // same shape as initial values
                     console.log(values);
+                    tonConnectUI.sendTransaction(transaction).then(() => onClose())
                   }}
                 >
                   {({ errors, touched }) => {
@@ -115,7 +130,10 @@ export default function Home() {
                             </div>
                           )}
                         </Field>
-                        <Button size="md" color="primary" fullWidth type="submit">Submit</Button>
+                        {wallet ? <Button size="md" color="primary" fullWidth type="submit">Submit</Button> :
+                          <Button size="md" color="primary" fullWidth type="submit" onClick={() => tonConnectUi.openModal()}>
+                            Connect wallet
+                          </Button>}
                       </Form>
                     )
                   }}
