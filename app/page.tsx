@@ -15,27 +15,40 @@ import {
 import Feed from '@/components/Feed';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { useTonConnectUI } from '@tonconnect/ui-react';
+import { useTonWallet } from '@tonconnect/ui-react';
 
 export default function Home() {
+
   const TradeSchema = Yup.object().shape({
     name: Yup.string()
-      .min(2, 'Too Short!')
-      .max(180, 'Too Long!')
+      .min(3, 'Too Short!')
+      .max(20, 'Too Long!')
       .required('Required'),
-    ticker: Yup.string()
-      .min(2, 'Too Short!')
-      .max(180, 'Too Long!')
+    symbol: Yup.string()
+      .min(3, 'Too Short!')
+      .max(5, 'Too Long!')
       .required('Required'),
     description: Yup.string()
       .min(2, 'Too Short!')
       .max(380, 'Too Long!')
       .required('Required'),
-    imageUrl: Yup.string().url().required('Required'),
-    // twitterUrl: Yup.string().required('Required'),
-    // telegramUrl: Yup.string().required('Required'),
-    // website: Yup.string().required('Required'),
+    logoUrl: Yup.string().url().required('Required'),
+    amount: Yup.number().required('Required')
   });
+
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const wallet = useTonWallet();
+  const [tonConnectUI, setOptions] = useTonConnectUI();
+
+  const transaction = {
+    messages: [
+      {
+        address: "0QCSES0TZYqcVkgoguhIb8iMEo4cvaEwmIrU5qbQgnN8fo2A", // destination address
+        amount: "1000000000"
+      }
+    ]
+  }
 
   return (
     <>
@@ -52,17 +65,15 @@ export default function Home() {
                 <Formik
                   initialValues={{
                     name: '',
-                    ticker: '',
+                    symbol: '',
                     description: '',
-                    imageUrl: '',
-                    // twitterUrl: '',
-                    // telegramUrl: '',
-                    // website: ''
+                    logoUrl: '',
+                    amount: '',
                   }}
                   validationSchema={TradeSchema}
                   onSubmit={values => {
-                    // same shape as initial values
                     console.log(values);
+                    tonConnectUI.sendTransaction(transaction).then(() => onClose())
                   }}
                 >
                   {({ errors, touched }) => {
@@ -79,13 +90,13 @@ export default function Home() {
                               </div>
                           )}
                         </Field>
-                        <Field name="ticker">
+                        <Field name="symbol">
                           {({
                               field,
                               form: { errors },
                             }) => (
                             <div className="h-[85px]">
-                              <Input type="text" {...field} label="Ticker" isInvalid={errors.ticker} errorMessage={errors.ticker} color={errors.ticker ? "danger" : ""}/>
+                              <Input type="text" {...field} label="Symbol" isInvalid={errors.symbol} errorMessage={errors.symbol} color={errors.symbol ? "danger" : ""}/>
                             </div>
                           )}
                         </Field>
@@ -99,31 +110,30 @@ export default function Home() {
                             </div>
                           )}
                         </Field>
-                        <Field name="imageUrl">
+                        <Field name="logoUrl">
                           {({
                               field,
                               form: { errors },
                             }) => (
                             <div className="h-[85px]">
-                              <Input type="text" {...field} label="Image Url" isInvalid={errors.imageUrl} errorMessage={errors.imageUrl} color={errors.imageUrl ? "danger" : ""}/>
+                              <Input type="text" {...field} label="Logo Url" isInvalid={errors.logoUrl} errorMessage={errors.logoUrl} color={errors.logoUrl ? "danger" : ""}/>
                             </div>
                           )}
                         </Field>
-                        {/*<Field name="ticker" size="sm" type="ticker" label="Ticker" component={Input}/>*/}
-                        {/*{errors.ticker && touched.ticker ? (*/}
-                        {/*  <div>{errors.ticker}</div>*/}
-                        {/*) : null}*/}
-                        {/*<Field name="description" size="sm" type="description" label="Description" component={Input} />*/}
-                        {/*{errors.description && touched.description ? <div>{errors.description}</div> : null}*/}
-                        {/*<Field name="imageUrl" size="sm" type="imageUrl" label="Image Url" component={Input} />*/}
-                        {/*{errors.imageUrl && touched.imageUrl ? <div>{errors.imageUrl}</div> : null}*/}
-                        {/*<Field name="twitterUrl" size="sm" type="twitterUrl" label="Twitter Url" component={Input} />*/}
-                        {/*{errors.twitterUrl && touched.twitterUrl ? <div>{errors.twitterUrl}</div> : null}*/}
-                        {/*<Field name="telegramUrl" size="sm" type="telegramUrl" label="Telegram Url" component={Input} />*/}
-                        {/*{errors.telegramUrl && touched.telegramUrl ? <div>{errors.telegramUrl}</div> : null}*/}
-                        {/*<Field name="website" size="sm" type="website" label="Website Url" component={Input} />*/}
-                        {/*{errors.website && touched.website ? <div>{errors.website}</div> : null}*/}
-                        <Button size="md" color="primary" fullWidth type="submit">Submit</Button>
+                        <Field name="amount">
+                          {({
+                              field,
+                              form: { errors },
+                            }) => (
+                            <div className="h-[85px]">
+                              <Input type="text" {...field} label="Amount" isInvalid={errors.amount} errorMessage={errors.amount} color={errors.amount ? "danger" : ""}/>
+                            </div>
+                          )}
+                        </Field>
+                        {wallet ? <Button size="md" color="primary" fullWidth type="submit">Submit</Button> :
+                          <Button size="md" color="primary" fullWidth type="submit" onClick={() => tonConnectUi.openModal()}>
+                            Connect wallet
+                          </Button>}
                       </Form>
                     )
                   }}
