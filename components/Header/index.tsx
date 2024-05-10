@@ -11,6 +11,7 @@ import {
   NavbarMenu, NavbarMenuItem
 } from "@nextui-org/react";
 import { TonConnectButton } from '@tonconnect/ui-react';
+import Image from "next/image";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -25,7 +26,7 @@ const Header = () => {
   ];
 
 return (
-  <Navbar onMenuOpenChange={setIsMenuOpen}>
+  <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full">
     <NavbarContent>
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -33,30 +34,35 @@ return (
       />
       <NavbarBrand>
         <Link href="/">
-          <p className="font-bold text-inherit">TON FUN</p>
+          <Image
+            src="/header-logo.svg"
+            width={198}
+            height={40}
+            alt="header logo"
+          />
         </Link>
       </NavbarBrand>
     </NavbarContent>
 
-    <NavbarContent className="hidden sm:flex gap-4" justify="center">
+    <NavbarContent className="hidden sm:flex gap-8">
       <NavbarItem>
         <Link color="foreground" href="#">
-          -How it works-
+          How it works
         </Link>
       </NavbarItem>
       <NavbarItem >
         <Link color="foreground" href="#" >
-          -Support-
+          Support
         </Link>
       </NavbarItem>
       <NavbarItem>
         <Link color="foreground" href="#">
-          -Twitter-
+          Telegram
         </Link>
       </NavbarItem>
       <NavbarItem>
         <Link color="foreground" href="#">
-          -Telegram-
+          Twitter.X
         </Link>
       </NavbarItem>
     </NavbarContent>
@@ -65,6 +71,7 @@ return (
         <TonConnectButton />
       </NavbarItem>
     </NavbarContent>
+
     <NavbarMenu>
       {menuItems.map((item, index) => (
         <NavbarMenuItem key={`${item}-${index}`}>
