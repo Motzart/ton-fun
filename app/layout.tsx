@@ -8,8 +8,8 @@ import { TonUIProvider } from '@/Providers/TonUIProvider';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ton Pump Fun",
-  description: "Ton Pump Fun",
+  title: "Hype Coin",
+  description: "Hype Coin",
 };
 
 export default function RootLayout({
