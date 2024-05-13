@@ -4,7 +4,7 @@ import SortingArrow from "../../public/sorting-arrow.svg"
 const JettonSorting = () => {
   return (
     <div className="flex gap-8">
-      <div className="flex items-center gap-2 cursor-pointer">
+      <div className="flex items-center gap-2 cursor-not-allowed opacity-25">
         <span className="font-semibold">Sort</span>
         <Image
           src={SortingArrow}
@@ -13,7 +13,7 @@ const JettonSorting = () => {
           alt="sorting arrow"
         />
       </div>
-      <div className="flex items-center gap-2 cursor-pointer">
+      <div className="flex items-center gap-2 cursor-not-allowed opacity-25">
         <span className="font-semibold">Order</span>
         <Image
           src={SortingArrow}
